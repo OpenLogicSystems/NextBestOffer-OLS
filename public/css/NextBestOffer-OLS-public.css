@@ -1,0 +1,47 @@
+/**
+ * All of the CSS for your public-facing functionality should be
+ * included in this file.
+ */
+ /* NextBestOffer-OLS-Plugin Carousel */
+ .NextBestOffer-OLS-carousel {
+    margin-bottom: 2em;
+}
+
+.carousel-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.carousel-list {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.carousel-item {
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    width: calc(33.333% - 10px);
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .carousel-item {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-item {
+        width: 100%;
+        margin-right: 0;
+    }
+}
