@@ -30,8 +30,18 @@ class NextBestOffer_OLS_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() 	{
-		update_option( 'NextBestOffer_OLS_max_rule_length', 5 );
-    	update_option( 'NextBestOffer_OLS_min_support', 0.5 );
-    	update_option( 'NextBestOffer_OLS_min_confidence', 0.8 );
+		//set default values for settings
+		add_option( 'NextBestOffer_OLS_use_case', '' );
+		add_option( 'NextBestOffer_OLS_api_key', '' );
+		
+		add_option( 'NextBestOffer_OLS_max_rule_length', 5 );
+    	add_option( 'NextBestOffer_OLS_min_support', 0.5 );
+    	add_option( 'NextBestOffer_OLS_min_confidence', 0.8 );
+		add_option( 'NextBestOffer_OLS_training_mode', 'transaction_related' );
+
+		add_option( 'NextBestOffer_OLS_selected_partial', '' );
+
+		add_option( 'NextBestOffer_OLS_logs', '' );
+		
 	}
 }

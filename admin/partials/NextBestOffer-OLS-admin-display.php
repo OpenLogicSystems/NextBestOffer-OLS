@@ -87,6 +87,16 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : $default_tab;
                             <p class="description">Here you determine how confident the plugin must be that the recommendation is relevant for the customers. A higher value means more accurate recommendations, but possibly less choice. (Default: 0.8)</p>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e( 'Training Mode', 'NextBestOffer-OLS' ); ?></th>
+                        <td>
+                            <select name="NextBestOffer_OLS_training_mode">
+                                <option value="transaction_related" <?php selected(get_option('NextBestOffer_OLS_training_mode'), 'transaction_related'); ?>>Transaction related</option>
+                                <option value="customer_related" <?php selected(get_option('NextBestOffer_OLS_training_mode'), 'customer_related'); ?>>Customer related</option>
+                            </select>
+                            <p class="description">Choose the mode for the association analysis: "Transaction related" (default) or "Customer related". In "Transaction related" mode, the analysis is conducted on all transactions, generating recommendations based on collective purchasing behavior. In "Customer related" mode, individual customer preferences guide the recommendations, enhancing personal relevance. Select the mode that best suits your business needs.</p>
+                        </td>
+                    </tr>
                 </table>
                 <?php submit_button(); ?>
             </form>

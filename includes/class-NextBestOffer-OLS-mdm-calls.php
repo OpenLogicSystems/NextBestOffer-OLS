@@ -26,16 +26,34 @@ class NextBestOffer_OLS_MDM_Calls {
 
 		$query = new WC_Order_Query(
 			array(
-				'limit' => -1
-			));
+				'limit' => -1,
+				'type' => 'shop_order',
+				'status' => array('wc-completed')
+			)
+		);
 		$orders = $query->get_orders();
 
 		$orders_with_items = array();
 		foreach ($orders as $order) {
+			//skip order if one method is not available
+			if (!method_exists($order, 'get_id')
+				|| !method_exists($order, 'get_customer_id')
+				|| !method_exists($order, 'get_date_created')
+				|| !method_exists($order, 'get_items')) {
+				continue;
+			}
+
 			$order_id = $order->get_id();
 			$customer_id = $order->get_customer_id();
-			$date_created_gmt = $order->get_date_created()->format('Y-m-d\TH:i:s');
+			$date_created = $order->get_date_created();
 			$items = $order->get_items();
+
+			//check if a variable is empty string, NULL, integer 0, or an array with no elements
+			if (empty($order_id) || empty($customer_id) || empty($date_created) || empty($items)) {
+				error_log("one empty order property");
+				continue;
+			}
+			$date_created_gmt = $date_created->format('Y-m-d\TH:i:s');
 
 			$order_with_items = array(
 				'id' => $order_id,
@@ -45,33 +63,60 @@ class NextBestOffer_OLS_MDM_Calls {
 			);
 
 			foreach ($items as $item) {
+				//skip item if one method is not available
+				if (!method_exists($item, 'get_product_id')
+					|| !method_exists($item, 'get_product')) {
+					continue;
+				}
 				$product_id = $item->get_product_id();
 				$product = $item->get_product();
+
+				//check if a variable is empty string, NULL, integer 0, or an array with no elements
+				if (empty($product_id) || empty($product)) {
+					continue;
+				}
+
+				if (!method_exists($product, 'get_name')) {
+					continue;
+				}
 				$item_name = $product->get_name();
-				$quantity = $item->get_quantity();
-				$subtotal = $item->get_subtotal();
-				$sku = $product->get_sku();
-				$price = $product->get_price();
+
+				//check if a variable is empty string, NULL, integer 0, or an array with no elements
+				if (empty($item_name)) {
+					continue;
+				}
 
 				$line_item = array(
 					'name' => $item_name,
-					'product_id' => $product_id,
-					'quantity' => $quantity,
-					'subtotal' => $subtotal,
-					'sku' => $sku,
-					'price' => $price
+					'product_id' => $product_id
 				);
 
 				$order_with_items['line_items'][] = $line_item;
 			}
 
-			$orders_with_items[] = $order_with_items;
+			//add only orders with line_items
+			if (!empty($order_with_items['line_items'])) {
+				$orders_with_items[] = $order_with_items;
+			}
+		}
+
+		if (empty($orders_with_items)) {
+			return 'no_orders';
 		}
 
 		$params = array(
 			'usecaseID' => get_option( 'NextBestOffer_OLS_use_case' ),
-			'apiKey' => get_option( 'NextBestOffer_OLS_api_key' ),
+			'apiKey' => get_option( 'NextBestOffer_OLS_api_key' )
 		);
+
+		if ( get_option( 'NextBestOffer_OLS_training_mode' ) ) {
+			if (get_option( 'NextBestOffer_OLS_training_mode' ) === 'customer_related') {
+				$params['customer_related_recommendations'] = true;
+			}
+			else {
+				$params['customer_related_recommendations'] = false;
+			}
+		}
 
 		$url = add_query_arg( $params, $api_url );
 		$body = json_encode($orders_with_items, JSON_UNESCAPED_UNICODE);
