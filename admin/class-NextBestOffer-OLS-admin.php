@@ -43,8 +43,10 @@ class NextBestOffer_OLS_Admin {
 		$this->version = $version;
 
 		add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
+		add_action(	'admin_menu', array( $this, 'add_confirmation_submenu'));
 		add_action( 'admin_init', array( $this, 'register_plugin_settings' ) );
-		add_action( 'admin_init', array( $this, 'handle_start_training' ) );
+		add_action( 'admin_init', array( $this, 'handle_confirm_start_training' ) );
+		add_action( 'admin_init', array( $this, 'start_training' ) );
 		add_action( 'admin_init', array( $this, 'get_logs' ) );
 		add_action( 'updated_option', array( $this, 'on_option_updated' ), 10, 3 );
 	}
@@ -106,8 +108,23 @@ class NextBestOffer_OLS_Admin {
 		);
 	}
 
+	public function add_confirmation_submenu() {
+		add_submenu_page(
+			null, // Kein Elternelement, also wird es nicht im Menü angezeigt
+			'Training Confirmation',
+			'Training Confirmation',
+			'manage_options',
+			'nextbestoffer_ols_confirmation',
+			array($this, 'display_confirmation_page')
+		);
+	}
+
 	public function display_nextbestoffer_ols_menu() {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/NextBestOffer-OLS-admin-display.php';
+	}
+
+	public function display_confirmation_page() {
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/partials/NextBestOffer-OLS-admin-confirm.php';
 	}
 
 	public function register_plugin_settings() {
@@ -132,7 +149,8 @@ class NextBestOffer_OLS_Admin {
 	public function on_option_updated( $option, $old_value, $new_value ) {
 		if ( 'NextBestOffer_OLS_use_case' === $option || 'NextBestOffer_OLS_api_key' === $option ) {
 			if ( $new_value !== $old_value ) {
-				$this->add_success($option . ' Value updated to ' . $new_value);
+				/* translators: 1: option name 2: new value */
+				$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'NextBestOffer-OLS' ), $option, $new_value ) );
 			}
 		}
 
@@ -140,27 +158,42 @@ class NextBestOffer_OLS_Admin {
 			if ( $new_value !== $old_value ) {
 				$response = NextBestOffer_OLS_MDM_Calls::update_config();
 				if ( $response ) {
-					$this->add_success($option . ' Value updated to ' . $new_value);
+					/* translators: 1: option name 2: new value */
+					$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'NextBestOffer-OLS' ), $option, $new_value ) );
 				} else {
-					$this->add_error('An error occurred.');
+					$this->add_error( esc_html__( 'An error occurred.', 'NextBestOffer-OLS' ) );
 				}
 			}	
 		}
 
 		if ( 'NextBestOffer_OLS_training_mode' === $option ) {
 			if ( $new_value !== $old_value ) {
-				$this->add_success('Training mode updated to ' . $new_value);
+				/* translators: 1: New value of the training mode. */
+				$this->add_success( sprintf( esc_html__( 'Training mode changed to %1$s', 'NextBestOffer-OLS' ), $new_value ) );
 			}
 		}
 	}
 
-	public function handle_start_training() {
-		if ( isset( $_POST['start_training'] ) ) {
-			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( 'You do not have permission to perform this action.' );
+	public function handle_confirm_start_training() {
+		if (isset($_POST['confirm_start_training'])) {
+			wp_redirect(admin_url('admin.php?page=nextbestoffer_ols_confirmation'));
+			exit;
+		}
+	}
+
+	public function start_training() {
+		if ( isset( $_POST['start_training'] ) && current_user_can( 'manage_options' ) ) {
+			// Check if training is already running
+			if (get_transient('NextBestOffer_OLS_training_status') === 'running') {
+				$this->add_error( esc_html__( 'Training is already running. Please try again later.', 'NextBestOffer-OLS' ) );
+				return;
 			}
+			
+			//does not work because notice are only displayed when php process is completed
+			//$this->add_info( esc_html__( 'Attempting to send data and start training. Please do not close this page and wait for a notification.', 'NextBestOffer-OLS' ) );
 
 			if ( get_option( 'NextBestOffer_OLS_use_case' ) && get_option( 'NextBestOffer_OLS_api_key' )) {
+				set_transient('NextBestOffer_OLS_training_status', 'running', 3600); // Expires in 1 hour
 				$response = NextBestOffer_OLS_MDM_Calls::addDataAndTrain();
 			} else {
 				error_log('Option "api key" or "use_case" missing');
@@ -168,14 +201,17 @@ class NextBestOffer_OLS_Admin {
 			}
 
 			if ( $response === 'training_running' ) {
-				$this->add_error('Training is already running. Please try again later.');
+				$this->add_error( esc_html__( 'Training is already running. Please try again later.', 'NextBestOffer-OLS' ) );
 			} elseif ( $response === 'no_orders' ) {
-				$this->add_error('No Orders to train the model.');
+				$this->add_error( esc_html__( 'No Orders to train the model.', 'NextBestOffer-OLS' ) );
 			} elseif ( $response ) {
-				$this->add_success('Training started');
+				$this->add_success( esc_html__( 'Training started', 'NextBestOffer-OLS' ) );
 			} else {
-				$this->add_error('An error has occurred. Please check your customer ID and API key.');
+				$this->add_error( esc_html__( 'An error has occurred. Please check your customer ID and API key.', 'NextBestOffer-OLS' ) );
 			}
+			wp_redirect(admin_url('admin.php?page=NextBestOffer_OLS_options'));
+			delete_transient('NextBestOffer_OLS_training_status');
+			exit;
 		}
 	}
 
@@ -186,10 +222,10 @@ class NextBestOffer_OLS_Admin {
 				if ($logs !== false) {
 					update_option( 'NextBestOffer_OLS_logs', $logs );
 				} else {
-					update_option( 'NextBestOffer_OLS_logs', 'Error retrieving the logs.' );
+					update_option( 'NextBestOffer_OLS_logs', esc_html__( 'Error retrieving the logs.', 'NextBestOffer-OLS' ) );
 				}
 			} else {
-				$this->add_error('Customer ID or API key missing.');
+				$this->add_error( esc_html__( 'Customer ID or API key missing.', 'NextBestOffer-OLS' ) );
 			}
 		}
 
@@ -210,6 +246,15 @@ class NextBestOffer_OLS_Admin {
 			'NextBestOffer_OLS_api_success',
 			$msg,
 			'success'
+		);
+	}
+
+	private function add_info($msg) {
+		add_settings_error(
+			'NextBestOffer_OLS',
+			'NextBestOffer_OLS_api_info',
+			$msg,
+			'info'
 		);
 	}
 

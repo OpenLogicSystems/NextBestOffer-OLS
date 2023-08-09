@@ -1,0 +1,213 @@
+# Copyright (C) 2023 Open Logic Systems
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: NextBestOffer-OLS 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/NextBestOffer-OLS\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-07-03T23:14:57+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: NextBestOffer-OLS\n"
+
+#. Plugin Name of the plugin
+msgid "NextBestOffer-OLS"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/NextBestOffer-OLS"
+msgstr ""
+
+#. Description of the plugin
+msgid "This WordPress WooCommerce extension utilizes Artificial Intelligence (AI) to generate precise, personalized product suggestions based on purchase history."
+msgstr ""
+
+#. Author of the plugin
+msgid "Open Logic Systems"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://open-ls.de/"
+msgstr ""
+
+#. translators: 1: option name 2: new value
+#: admin/class-NextBestOffer-OLS-admin.php:136
+#: admin/class-NextBestOffer-OLS-admin.php:145
+msgid "%1$s Value updated to %2$s"
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:147
+msgid "An error occurred."
+msgstr ""
+
+#. translators: 1: New value of the training mode.
+#: admin/class-NextBestOffer-OLS-admin.php:155
+msgid "Training mode changed to %1$s"
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:163
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:174
+msgid "Training is already running. Please try again later."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:176
+msgid "No Orders to train the model."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:178
+msgid "Training started"
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:180
+msgid "An error has occurred. Please check your customer ID and API key."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:192
+msgid "Error retrieving the logs."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:195
+msgid "Customer ID or API key missing."
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:34
+msgid "Customer ID & API Key"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:35
+msgid "Settings"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:36
+msgid "Logs"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:37
+msgid "Design"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:49
+msgid "Choose Design"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:52
+msgid "None"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:53
+msgid "Partial 1"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:54
+msgid "Partial 2"
+msgstr ""
+
+#. translators: 1: Link to the Log Tab
+#: admin/partials/NextBestOffer-OLS-admin-display.php:71
+msgid "Note: The current values and the number of rules found can be viewed in the %1$s. After changes, the training must be restarted."
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:72
+msgid "Log Tab"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:77
+msgid "Max. rule length"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:80
+msgid "This setting determines how many different products can appear together in a recommendation at most. A larger number means more diverse recommendations, but possibly also more rules. (Default: 5)"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:84
+msgid "Min. Support"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:87
+msgid "This value determines how often a product combination must occur in the orders for it to be displayed as a recommendation. A higher value only shows combinations that are purchased more frequently. (Default: 0.5)"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:91
+msgid "Min. Confidence"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:94
+msgid "Here you determine how confident the plugin must be that the recommendation is relevant for the customers. A higher value means more accurate recommendations, but possibly less choice. (Default: 0.8)"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:98
+msgid "Training Mode"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:101
+msgid "Transaction related"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:102
+msgid "Customer related"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:104
+msgid "Choose the mode for the association analysis: \"Transaction related\" (default) or \"Customer related\". In \"Transaction related\" mode, the analysis is conducted on all transactions, generating recommendations based on collective purchasing behavior. In \"Customer related\" mode, individual customer preferences guide the recommendations, enhancing personal relevance. Select the mode that best suits your business needs."
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:118
+msgid "Refresh"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:130
+msgid "Customer ID"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:134
+msgid "API Key"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:139
+msgid "Buy Plugin"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:143
+msgid "Start Training"
+msgstr ""
+
+#: public/class-NextBestOffer-OLS-public.php:212
+msgid "Error loading the recommendations."
+msgstr ""
+
+#: public/partials/NextBestOffer-OLS-public-display-2.php:18
+#: public/partials/NextBestOffer-OLS-public-display-3.php:18
+#: public/partials/NextBestOffer-OLS-public-display.php:18
+msgid "Customers also bought:"
+msgstr ""
+
+#. translators: 1: product name
+#: public/partials/NextBestOffer-OLS-public-display-2.php:34
+msgctxt "1: product name"
+msgid "%1$s add to your shopping cart"
+msgstr ""
+
+#: public/partials/NextBestOffer-OLS-public-display-2.php:35
+#: public/partials/NextBestOffer-OLS-public-display.php:35
+msgid "Add to cart"
+msgstr ""
+
+#: public/partials/NextBestOffer-OLS-public-display-3.php:28
+msgid "Learn more"
+msgstr ""
+
+#: public/partials/NextBestOffer-OLS-public-display-3.php:35
+msgid "Read more"
+msgstr ""
+
+#. translators: %s: product name
+#: public/partials/NextBestOffer-OLS-public-display.php:34
+msgid "Add %s to your shopping cart"
+msgstr ""

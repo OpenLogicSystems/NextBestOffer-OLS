@@ -58,6 +58,8 @@ class NextBestOffer_OLS_Public {
 		#Replace default related products by woocomerce with mdm recoms
 		add_filter( 'woocommerce_related_products', [ $this, 'get_related_recommendations' ], 10, 3 );
 
+		add_filter( 'post_class', array( $this, 'add_custom_class' ) );
+
 		#Add Callback after clicking on cart and get mdm recoms
 		add_filter( 'woocommerce_cart_crosssell_ids', [ $this, 'get_cart_recommendations' ], 10, 1 );
 
@@ -124,6 +126,8 @@ class NextBestOffer_OLS_Public {
 		$recommended_products = NextBestOffer_OLS_MDM_Calls::get_recommendations( $kunde_case_id, $api_key, $cart_item_ids );
 		
 		if ( !empty($recommended_products) ) {
+			global $nbo_current_recommended_product_ids;
+			$nbo_current_recommended_product_ids = $recommended_products;
 			return $recommended_products;
 		}
 		
@@ -139,11 +143,24 @@ class NextBestOffer_OLS_Public {
 		$recommended_products = NextBestOffer_OLS_MDM_Calls::get_recommendations( $kunde_case_id, $api_key, $product_id_array );
 	
 		if ( !empty($recommended_products) ) {
+			global $nbo_current_recommended_product_ids;
+			$nbo_current_recommended_product_ids = $recommended_products;
 			return $recommended_products;
 		}
 	
 		return $related_posts;
     }
+
+	public function add_custom_class( $classes ) {
+		global $nbo_current_recommended_product_ids;
+	
+		if ( !empty($nbo_current_recommended_product_ids) && in_array( get_the_ID(), $nbo_current_recommended_product_ids ) ) {
+			$classes[] = 'NBO-recom';
+			unset($nbo_current_recommended_product_ids);
+		}
+		
+		return $classes;
+	}
 
 	public function get_recommendations( $order_id ) {
 		if ( ! $order_id ) {
@@ -174,6 +191,9 @@ class NextBestOffer_OLS_Public {
 			$selected_partial = get_option('NextBestOffer_OLS_selected_partial', 'partial-1');
 			
 			switch ($selected_partial) {
+				case 'none':
+					$partial_path = 'none';
+					break;
 				case 'partial-1':
 					$partial_path = plugin_dir_path(__FILE__) . 'partials/NextBestOffer-OLS-public-display.php';
 					break;
@@ -185,10 +205,12 @@ class NextBestOffer_OLS_Public {
 					break;
 			}
 
-			if (file_exists($partial_path)) {
+			if ($partial_path !== 'none' && file_exists($partial_path)) {
 				include $partial_path;
 			} else {
-				_e('Fehler beim Laden der Empfehlungen.', 'NextBestOffer-OLS');
+				if ($partial_path !== 'none') {
+					esc_html_e('Error loading the recommendations.', 'NextBestOffer-OLS');
+				}
 			}
 		}
 	}
