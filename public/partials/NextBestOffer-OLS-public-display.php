@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             <?php if ($product) : ?>
                 <li class="product type-product">
                     <a href="<?php echo esc_url($product->get_permalink()); ?>" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">
-                    <img src="<?php echo wp_get_attachment_image_url($product->get_image_id(), 'medium'); ?>" alt="<?php echo esc_attr__($product->get_name(), 'NextBestOffer-OLS'); ?>" />
+                    <img src="<?php echo esc_url(wp_get_attachment_image_url($product->get_image_id(), 'medium')); ?>" alt="<?php echo esc_attr__($product->get_name(), 'NextBestOffer-OLS'); ?>" />
                         <h2 class="woocommerce-loop-product__title"><?php echo esc_html($product->get_name()); ?></h2>
                         <span class="price"><?php echo wp_kses_post($product->get_price_html()); ?></span>
                     </a>

@@ -53,7 +53,8 @@ class NextBestOffer_OLS_Public {
 		$this->version = $version;
 
 		#Add Callback after something was purchased
-		add_action( 'woocommerce_thankyou', [ $this, 'get_recommendations' ], 10, 1 );
+		add_action( 'woocommerce_thankyou', [ $this, 'display_recommendations' ], 10, 1 );
+		add_action( 'woocommerce_email_after_order_table', [ $this, 'add_product_grid_specific_email' ], 20, 4 );
 
 		#Replace default related products by woocomerce with mdm recoms
 		add_filter( 'woocommerce_related_products', [ $this, 'get_related_recommendations' ], 10, 3 );
@@ -88,7 +89,7 @@ class NextBestOffer_OLS_Public {
 
 	}
 
-	/**
+	/**add_product_grid_specific_email
 	 * Register the JavaScript for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
@@ -101,7 +102,7 @@ class NextBestOffer_OLS_Public {
 		 * An instance of this class should be passed to the run() function
 		 * defined in NextBestOffer_OLS_Loader as all of the hooks are defined
 		 * in that particular class.
-		 *
+		 *woocommerce_thankyou
 		 * The NextBestOffer_OLS_Loader will then create the relationship
 		 * between the defined hooks and the functions defined in this
 		 * class.
@@ -135,7 +136,7 @@ class NextBestOffer_OLS_Public {
 	}
 
 	public function get_related_recommendations( $related_posts, $product_id, $args ) {
-        $kunde_case_id = get_option( 'NextBestOffer_OLS_use_case' );
+        $kunde_case_id = get_option( 'NextBestOffer_OLS_use_case');
         $api_key = get_option( 'NextBestOffer_OLS_api_key' );
 
 		$product_id_array = [$product_id];
@@ -144,7 +145,7 @@ class NextBestOffer_OLS_Public {
 	
 		if ( !empty($recommended_products) ) {
 			global $nbo_current_recommended_product_ids;
-			$nbo_current_recommended_product_ids = $recommended_products;
+			$nbo_current_recommended_product_ids = $recommended_products; 
 			return $recommended_products;
 		}
 	
@@ -180,10 +181,12 @@ class NextBestOffer_OLS_Public {
 
 		$recommended_products = NextBestOffer_OLS_MDM_Calls::get_recommendations( $kunde_case_id, $api_key, $item_ids );
 		
-		$this->display_recommendations($recommended_products);
+		return $recommended_products;
 	}
 
-	public function display_recommendations($recommendations) {
+	public function display_recommendations( $order_id ) {
+
+		$recommendations = $this->get_recommendations( $order_id );
 		if (empty($recommendations)) {
 			#error_log("Keine Produktempfehlungen gefunden");
 		} else {
@@ -214,4 +217,45 @@ class NextBestOffer_OLS_Public {
 			}
 		}
 	}
+
+	public function add_product_grid_specific_email( $order, $sent_to_admin, $plain_text, $email ) {
+
+		$selected_option = get_option('NextBestOffer_OLS_email_recommendations');
+		
+		if ($selected_option === 'disabled') {
+			return;
+		}
+
+		$order_id = $order->get_order_number();
+		$recommendations = $this->get_recommendations( $order_id );
+    
+		if ( $email->id == 'customer_processing_order' ) {
+			
+		   echo '<h2>Related Products</h2>';
+			
+		   $html = '';
+		   $col = 1;
+		   $cols = 2;
+		   $limit = 3;
+		   $html .= '<div><table style="table-layout:fixed;width:100%;"><tbody>';     
+		   foreach ( $recommendations as $product_id ) {
+			if ($col === $limit) {
+				break;
+			}
+			  $product = wc_get_product( $product_id );
+			  $html .= ( $col + $cols - 1 ) % $cols === 0 ? '<tr>' : '';
+			  $html .= '<td style="text-align:center;vertical-align:bottom">';
+			  $html .= $product->get_image();
+			  $html .= '<h3 style="text-align:center">' . $product->get_title() . '</h3>';
+			  $html .= '<p>' . $product->get_price_html() . '</p>';
+			  $html .= '<p><a href="' . get_permalink( $product_id ) . '">' . __( 'Read more', 'woocommerce' ) . '</a></p></td>';
+			  $html .= $col % $cols === 0 ? '</tr>' : '';
+			  $col++;
+		   }
+		   $html .= '</tbody></table></div>';
+			
+		   echo $html;
+			
+		}
+	 }
 }

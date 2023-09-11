@@ -28,6 +28,6 @@ if ( ! current_user_can( 'manage_options' ) ) {
     <h3><?php esc_html_e('After confirmation, please wait until the page has finished loading and the options page is displayed again.', 'NextBestOffer-OLS'); ?></h3>
     <form method="post">
         <input type="submit" name="start_training" class="button button-primary" value="<?php esc_attr_e('Yes', 'NextBestOffer-OLS'); ?>">
-        <a href="<?php echo admin_url('options-general.php?page=NextBestOffer_OLS_options'); ?>" class="button"><?php esc_html_e('No', 'NextBestOffer-OLS'); ?></a>
+        <a href="<?php echo esc_url(admin_url('options-general.php?page=NextBestOffer_OLS_options')); ?>" class="button"><?php esc_html_e('No', 'NextBestOffer-OLS'); ?></a>
     </form>
 </div>

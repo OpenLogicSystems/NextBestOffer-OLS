@@ -39,7 +39,6 @@ class NextBestOffer_OLS_MDM_Calls {
 				'return' => 'ids',
 			)
 		);
-	
 		$order_ids = $order_query->get_orders();
 
 		// Prüfen, ob Bestellungen vorhanden sind
@@ -48,8 +47,16 @@ class NextBestOffer_OLS_MDM_Calls {
 		}
 	
 		// Batch größe
-		$batch_size = 500;
-	
+		$batch_size = get_option('NextBestOffer_OLS_batch_size');
+
+		// Validierung
+		$batch_size = (int) $batch_size;
+		if ($batch_size < 500) {
+			$batch_size = 500;
+		} elseif ($batch_size > 4000) {
+			$batch_size = 4000;
+		}
+
 		// Anzahl Batches
 		$batches = array_chunk($order_ids, $batch_size);
 	
@@ -81,8 +88,11 @@ class NextBestOffer_OLS_MDM_Calls {
 				$url = add_query_arg($params, $api_url);
 
 				$args = array(
-					'body' => json_encode($orders_with_items, JSON_UNESCAPED_UNICODE),
-					'headers' => array('Content-Type' => 'application/json'),
+					'body' => gzencode(json_encode($orders_with_items, JSON_UNESCAPED_UNICODE), 9),
+					'headers' => array(
+						'Content-Encoding' => 'gzip',
+						'Content-Type' => 'application/json'
+					),
 					'timeout' => 90,
 				);
 		
@@ -199,38 +209,46 @@ class NextBestOffer_OLS_MDM_Calls {
 	}	
 
 	public static function get_recommendations( $case_id, $api_key, $item_ids ) {
-		$api_url = MDM_SERVICE_URL . '/predict';
-
-		$params = array(
-			'usecaseID' => $case_id,
-			'apiKey' => $api_key,
-		);
-
-		$url = add_query_arg( $params, $api_url );
-
-		$body = json_encode($item_ids, JSON_UNESCAPED_UNICODE);
-		$args = array(
-			'body' => $body,
-			'headers' => array(
-				'Content-Type' => 'application/json',
-			),
-		);
-
-		$response = wp_remote_post($url, $args);
-
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
 		
-		if (isset($response_body['consequents'])) {
-			// max. 4 elements
-			$limited_consequents = array_slice($response_body['consequents'], 0, 4);
-			return $limited_consequents;
-		}
+		$temp_str = implode("_", $item_ids);
+		if (get_transient('NextBestOffer_OLS_temporary_recommendations' . $temp_str) !== false) { //there is already a prediction
+			return get_transient(('NextBestOffer_OLS_temporary_recommendations' . $temp_str));
+		} else {
+			$api_url = MDM_SERVICE_URL . '/predict';
 
-		return false;
+			$params = array(
+				'usecaseID' => $case_id,
+				'apiKey' => $api_key,
+			);
+
+			$url = add_query_arg( $params, $api_url );
+
+			$body = json_encode($item_ids, JSON_UNESCAPED_UNICODE);
+			$args = array(
+				'body' => $body,
+				'headers' => array(
+					'Content-Type' => 'application/json',
+				),
+			);
+
+			$response = wp_remote_post($url, $args);
+
+			if ( is_wp_error( $response ) ) {
+				return false;
+			}
+
+			$response_body = json_decode( wp_remote_retrieve_body( $response ), true );
+			
+			if (isset($response_body['consequents'])) {
+				// max. 4 elements
+				$limited_consequents = array_slice($response_body['consequents'], 0, 4);
+				set_transient('NextBestOffer_OLS_temporary_recommendations' . $temp_str, $limited_consequents, 600); // Expires in 10 minutes
+				return $limited_consequents;
+			}
+
+			return false;
+			}
+			
 	}
 
 	public static function update_config() {

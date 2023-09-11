@@ -25,7 +25,11 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 // Get the active tab from the $_GET param
 $default_tab = null;
+$allowed_tabs = ['partial_selection', 'settings', 'logs'];
 $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : $default_tab;
+if (!in_array($tab, $allowed_tabs, true)) {
+    $tab = $default_tab;
+}
 ?>
 <div class="wrap">
     <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -103,6 +107,23 @@ $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : $default_tab;
                             <p class="description"><?php echo esc_html__( 'Choose the mode for the association analysis: "Transaction related" (default) or "Customer related". In "Transaction related" mode, the analysis is conducted on all transactions, generating recommendations based on collective purchasing behavior. In "Customer related" mode, individual customer preferences guide the recommendations, enhancing personal relevance. Select the mode that best suits your business needs.', 'NextBestOffer-OLS' ); ?></p>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e( 'Batch Size', 'NextBestOffer-OLS' ); ?></th>
+                        <td>
+                            <input type="number" name="NextBestOffer_OLS_batch_size" value="<?php echo esc_attr( get_option( 'NextBestOffer_OLS_batch_size' ) ); ?>" min="500" max="4000" step="100">
+                            <p class="description"><?php echo esc_html__( 'This setting controls the batch size for sending orders to the recommendation service. Higher values send more orders at once but may overload the WordPress PHP script whereas lower values make the transfer slower (min: 500; max: 4000).', 'NextBestOffer-OLS' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e( 'Email Recommendations', 'NextBestOffer-OLS' ); ?></th>
+                        <td>
+                            <select name="NextBestOffer_OLS_email_recommendations">
+                                <option value="enabled" <?php selected(get_option('NextBestOffer_OLS_email_recommendations'), 'enabled'); ?>><?php echo esc_html__( 'Enabled', 'NextBestOffer-OLS' ); ?></option>
+                                <option value="disabled" <?php selected(get_option('NextBestOffer_OLS_email_recommendations'), 'disabled'); ?>><?php echo esc_html__( 'Disabled', 'NextBestOffer-OLS' ); ?></option>
+                            </select>
+                            <p class="description"><?php echo esc_html__( 'If you enable this feature customers get also personalized recommendations in their order confirmation email.', 'NextBestOffer-OLS' ); ?></p>
+                        </td>
+                    </tr>
                 </table>
                 <?php submit_button(); ?>
             </form>
@@ -112,7 +133,11 @@ $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : $default_tab;
                 ?>
                 <form method="post">
                     <div id="logs">
-                        <pre><?php echo esc_html( get_option( 'NextBestOffer_OLS_logs', '' ) ); ?></pre>
+                        <div class="scrollable-window">
+                            <div class="scrollable-content">
+                                <pre><?php echo esc_html( get_option( 'NextBestOffer_OLS_logs', '' ) ); ?></pre>
+                            </div>
+                        </div>
                     </div>
                     <input type="submit" name="get_logs" class="button button-primary" value="<?php esc_attr_e( 'Refresh', 'NextBestOffer-OLS' ); ?>" />
                 </form>
