@@ -47,6 +47,7 @@ if (!in_array($tab, $allowed_tabs, true)) {
                 <form method="post" action="options.php">
                     <?php settings_fields( 'NextBestOffer_OLS_partial_selection' ); ?>
                     <?php do_settings_sections( 'NextBestOffer_OLS' ); ?>
+                    <?php wp_nonce_field('partial_selection_action', 'partial_selection_nonce'); ?>
                     <table class="form-table">
                         <tr>
                             <th scope="row"><?php esc_html_e( 'Choose Design', 'NextBestOffer-OLS' ); ?></th>
@@ -68,6 +69,7 @@ if (!in_array($tab, $allowed_tabs, true)) {
             <form method="post" action="options.php">
                 <?php settings_fields( 'NextBestOffer_OLS_model_settings' ); ?>
                 <?php do_settings_sections( 'NextBestOffer_OLS' ); ?>
+                <?php wp_nonce_field('settings_action', 'settings_nonce'); ?>
                 <?php 
                     printf( 
                         /* translators: 1: Link to the Log Tab */
@@ -127,11 +129,12 @@ if (!in_array($tab, $allowed_tabs, true)) {
                 </table>
                 <?php submit_button(); ?>
             </form>
-                <?php
-                break;
+            <?php
+            break;
             case 'logs':
                 ?>
                 <form method="post">
+                    <?php wp_nonce_field('logs_action', 'logs_nonce'); ?>
                     <div id="logs">
                         <div class="scrollable-window">
                             <div class="scrollable-content">
@@ -148,6 +151,7 @@ if (!in_array($tab, $allowed_tabs, true)) {
                 <form method="post" action="options.php">
                     <?php settings_fields( 'NextBestOffer_OLS_credentials' ); ?>
                     <?php do_settings_sections( 'NextBestOffer_OLS' ); ?>
+                    <?php wp_nonce_field('default_action', 'default_nonce'); ?>
 
                     <table class="form-table">
                         <tr>

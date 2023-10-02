@@ -245,17 +245,17 @@ class NextBestOffer_OLS_Public {
 			  $product = wc_get_product( $product_id );
 			  $html .= ( $col + $cols - 1 ) % $cols === 0 ? '<tr>' : '';
 			  $html .= '<td style="text-align:center;vertical-align:bottom">';
-			  $html .= $product->get_image();
-			  $html .= '<h3 style="text-align:center">' . $product->get_title() . '</h3>';
-			  $html .= '<p>' . $product->get_price_html() . '</p>';
-			  $html .= '<p><a href="' . get_permalink( $product_id ) . '">' . __( 'Read more', 'woocommerce' ) . '</a></p></td>';
+			  $html .= wp_kses_post($product->get_image());
+			  $html .= '<h3 style="text-align:center">' . esc_html($product->get_title()) . '</h3>';
+			  $html .= '<p>' . wp_kses_post($product->get_price_html()) . '</p>';
+			  $html .= '<p><a href="' . esc_url(get_permalink($product_id)) . '">' . esc_html__('Read more', 'woocommerce') . '</a></p></td>';
 			  $html .= $col % $cols === 0 ? '</tr>' : '';
 			  $col++;
 		   }
 		   $html .= '</tbody></table></div>';
 			
-		   echo $html;
+		   echo wp_kses_post($html);
 			
 		}
-	 }
+	}
 }

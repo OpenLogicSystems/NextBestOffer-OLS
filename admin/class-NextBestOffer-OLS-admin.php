@@ -201,27 +201,41 @@ class NextBestOffer_OLS_Admin {
 			}
 		}
 	}
-
 	public function handle_confirm_start_training() {
-		if (isset($_POST['confirm_start_training'])) {
-			// Check if training is already running
-			if (get_transient('NextBestOffer_OLS_training_status') === 'running') {
-				//wp_redirect(admin_url('admin.php?page=NextBestOffer_OLS_options'));
-				$this->add_error( esc_html__( 'Training is already running. Please try again later (max. 10 minutes).', 'NextBestOffer-OLS' ) );
+		// Check for the existence of the specific form submit action and nonce verification
+		if (isset($_POST['confirm_start_training']) && isset($_POST['default_nonce']) && wp_verify_nonce($_POST['default_nonce'], 'default_action')) {
+			
+			// Check user capability
+			if (!current_user_can('manage_options')) {
+				$this->add_error(esc_html__('You do not have sufficient permissions to access this page.', 'NextBestOffer-OLS'));
 				return;
 			}
-			else {
+	
+			// Check if training is already running
+			if (get_transient('NextBestOffer_OLS_training_status') === 'running') {
+				$this->add_error(esc_html__('Training is already running. Please try again later (max. 10 minutes).', 'NextBestOffer-OLS'));
+				return;
+			} else {
 				wp_redirect(admin_url('admin.php?page=nextbestoffer_ols_confirmation'));
 				exit;
 			}
+	
+		} else if (isset($_POST['confirm_start_training'])) {
+			$this->add_error(esc_html__('Nonce verification failed.', 'NextBestOffer-OLS'));
 		}
 	}
 
 	public function start_training() {
-		if ( isset( $_POST['start_training'] ) && current_user_can( 'manage_options' ) ) {
+		if ( isset( $_POST['start_training'] ) && isset( $_POST['start_training_nonce'] ) && wp_verify_nonce( $_POST['start_training_nonce'], 'start_training_action' ) ) {
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this action.', 'NextBestOffer-OLS' ) );
+				return;
+			}
+		
 			//does not work because notice are only displayed when php process is completed
 			//$this->add_info( esc_html__( 'Attempting to send data and start training. Please do not close this page and wait for a notification.', 'NextBestOffer-OLS' ) );
-
+		
 			if ( get_option( 'NextBestOffer_OLS_use_case' ) && get_option( 'NextBestOffer_OLS_api_key' )) {
 				set_transient('NextBestOffer_OLS_training_status', 'running', 600); // Expires in 10 minutes
 				$response = NextBestOffer_OLS_MDM_Calls::addDataAndTrain();
@@ -229,7 +243,7 @@ class NextBestOffer_OLS_Admin {
 				error_log('Option "api key" or "use_case" missing');
 				$response = false;
 			}
-
+		
 			if ( $response === 'training_running' ) {
 				$this->add_error( esc_html__( 'Training is already running. Please try again later.', 'NextBestOffer-OLS' ) );
 			} elseif ( $response === 'no_orders' ) {
@@ -242,11 +256,20 @@ class NextBestOffer_OLS_Admin {
 			wp_redirect(admin_url('admin.php?page=NextBestOffer_OLS_options'));
 			delete_transient('NextBestOffer_OLS_training_status');
 			exit;
-		}
+		
+		} else if ( isset( $_POST['start_training'] ) ) {
+			$this->add_error( esc_html__( 'Nonce verification failed.', 'NextBestOffer-OLS' ) );
+		}		
 	}
 
 	public function get_logs() {
-		if ( isset( $_POST['get_logs'] ) ) {
+		if ( isset( $_POST['get_logs'] ) && isset( $_POST['logs_nonce'] ) && wp_verify_nonce( $_POST['logs_nonce'], 'logs_action' ) ) {
+	
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this page.', 'NextBestOffer-OLS' ) );
+				return;
+			}
+	
 			if ( get_option( 'NextBestOffer_OLS_use_case' ) && get_option( 'NextBestOffer_OLS_api_key' )) {
 				$logs = NextBestOffer_OLS_MDM_Calls::get_logs();
 				if ($logs !== false) {
@@ -257,8 +280,10 @@ class NextBestOffer_OLS_Admin {
 			} else {
 				$this->add_error( esc_html__( 'Customer ID or API key missing.', 'NextBestOffer-OLS' ) );
 			}
+	
+		} else if ( isset( $_POST['get_logs'] ) ) {
+			$this->add_error( esc_html__( 'Nonce verification failed.', 'NextBestOffer-OLS' ) );
 		}
-
 	}
 
 	private function add_error($msg) {

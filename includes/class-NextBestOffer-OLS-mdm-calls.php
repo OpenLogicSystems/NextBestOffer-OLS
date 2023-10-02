@@ -22,8 +22,9 @@
 class NextBestOffer_OLS_MDM_Calls {
 
 	public static function addDataAndTrain() {
+		$original_time_limit = ini_get('max_execution_time');
 		set_time_limit(300); //increase php time limit (default 30 sec)
-	
+
 		$api_url = MDM_SERVICE_URL . '/addData';
 	
 		$usecaseID = get_option('NextBestOffer_OLS_use_case');
@@ -117,6 +118,7 @@ class NextBestOffer_OLS_MDM_Calls {
 
 		//start training with new data
 		$training_response = self::startTraining();
+		set_time_limit($original_time_limit); //reset php time limit
 		return $training_response;
 	}
 	
