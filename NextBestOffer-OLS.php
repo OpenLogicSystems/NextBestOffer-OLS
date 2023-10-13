@@ -16,7 +16,7 @@
  * Plugin Name:       NextBestOffer-OLS
  * Plugin URI:        https://wordpress.org/plugins/nextbestoffer-ols/
  * Description:       This WordPress WooCommerce extension utilizes Artificial Intelligence (AI) to generate precise, personalized product suggestions based on purchase history. 
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            Open Logic Systems
  * Author URI:        https://open-ls.de/
  * License:           GPL-2.0+
