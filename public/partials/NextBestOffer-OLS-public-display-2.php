@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <section class="NextBestOffer-OLS-carousel">
-    <h2><?php esc_html_e('Customers also bought:', 'NextBestOffer-OLS'); ?></h2>
+    <h2><?php esc_html_e('Customers also bought:', 'nextbestoffer-ols'); ?></h2>
     <div class="carousel-container">
         <ul class="carousel-list">
             <?php foreach ($recommendations as $product_id) : ?>
@@ -32,8 +32,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                         aria-label="
                         <?php 
                         /* translators: 1: product name */
-                        echo esc_attr(sprintf(_x('%1$s add to your shopping cart', '1: product name', 'NextBestOffer-OLS'), $product->get_name())); 
-                        ?>" rel="nofollow"><?php esc_html_e('Add to cart', 'NextBestOffer-OLS'); ?></a>
+                        echo esc_attr(sprintf(_x('%1$s add to your shopping cart', '1: product name', 'nextbestoffer-ols'), $product->get_name())); 
+                        ?>" rel="nofollow"><?php esc_html_e('Add to cart', 'nextbestoffer-ols'); ?></a>
                     </li>
                 <?php endif; ?>
             <?php endforeach; ?>

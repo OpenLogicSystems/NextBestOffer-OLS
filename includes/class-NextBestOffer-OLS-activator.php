@@ -3,7 +3,7 @@
 /**
  * Fired during plugin activation
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS

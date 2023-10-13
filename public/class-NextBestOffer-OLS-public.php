@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS
@@ -212,7 +212,7 @@ class NextBestOffer_OLS_Public {
 				include $partial_path;
 			} else {
 				if ($partial_path !== 'none') {
-					esc_html_e('Error loading the recommendations.', 'NextBestOffer-OLS');
+					esc_html_e('Error loading the recommendations.', 'nextbestoffer-ols');
 				}
 			}
 		}

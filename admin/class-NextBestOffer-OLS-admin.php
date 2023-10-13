@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS
@@ -171,7 +171,7 @@ class NextBestOffer_OLS_Admin {
 		if ( 'NextBestOffer_OLS_use_case' === $option || 'NextBestOffer_OLS_api_key' === $option ) {
 			if ( $new_value !== $old_value ) {
 				/* translators: 1: option name 2: new value */
-				$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'NextBestOffer-OLS' ), $option, $new_value ) );
+				$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'nextbestoffer-ols' ), $option, $new_value ) );
 			}
 		}
 
@@ -180,9 +180,9 @@ class NextBestOffer_OLS_Admin {
 				$response = NextBestOffer_OLS_MDM_Calls::update_config();
 				if ( $response ) {
 					/* translators: 1: option name 2: new value */
-					$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'NextBestOffer-OLS' ), $option, $new_value ) );
+					$this->add_success( sprintf( esc_html__( '%1$s Value updated to %2$s', 'nextbestoffer-ols' ), $option, $new_value ) );
 				} else {
-					$this->add_error( esc_html__( 'An error occurred.', 'NextBestOffer-OLS' ) );
+					$this->add_error( esc_html__( 'An error occurred.', 'nextbestoffer-ols' ) );
 				}
 			}	
 		}
@@ -190,14 +190,14 @@ class NextBestOffer_OLS_Admin {
 		if ( 'NextBestOffer_OLS_training_mode' === $option ) {
 			if ( $new_value !== $old_value ) {
 				/* translators: 1: New value of the training mode. */
-				$this->add_success( sprintf( esc_html__( 'Training mode changed to %1$s', 'NextBestOffer-OLS' ), $new_value ) );
+				$this->add_success( sprintf( esc_html__( 'Training mode changed to %1$s', 'nextbestoffer-ols' ), $new_value ) );
 			}
 		}
 
 		if ( 'NextBestOffer_OLS_email_recommendations' === $option ) {
 			if ( $new_value !== $old_value ) {
 				/* translators: 1: New value of the training mode. */
-				$this->add_success( sprintf( esc_html__( 'Email recommendations changed to %1$s', 'NextBestOffer-OLS' ), $new_value ) );
+				$this->add_success( sprintf( esc_html__( 'Email recommendations changed to %1$s', 'nextbestoffer-ols' ), $new_value ) );
 			}
 		}
 	}
@@ -207,13 +207,13 @@ class NextBestOffer_OLS_Admin {
 			
 			// Check user capability
 			if (!current_user_can('manage_options')) {
-				$this->add_error(esc_html__('You do not have sufficient permissions to access this page.', 'NextBestOffer-OLS'));
+				$this->add_error(esc_html__('You do not have sufficient permissions to access this page.', 'nextbestoffer-ols'));
 				return;
 			}
 	
 			// Check if training is already running
 			if (get_transient('NextBestOffer_OLS_training_status') === 'running') {
-				$this->add_error(esc_html__('Training is already running. Please try again later (max. 10 minutes).', 'NextBestOffer-OLS'));
+				$this->add_error(esc_html__('Training is already running. Please try again later (max. 10 minutes).', 'nextbestoffer-ols'));
 				return;
 			} else {
 				wp_redirect(admin_url('admin.php?page=nextbestoffer_ols_confirmation'));
@@ -221,7 +221,7 @@ class NextBestOffer_OLS_Admin {
 			}
 	
 		} else if (isset($_POST['confirm_start_training'])) {
-			$this->add_error(esc_html__('Nonce verification failed.', 'NextBestOffer-OLS'));
+			$this->add_error(esc_html__('Nonce verification failed.', 'nextbestoffer-ols'));
 		}
 	}
 
@@ -229,12 +229,12 @@ class NextBestOffer_OLS_Admin {
 		if ( isset( $_POST['start_training'] ) && isset( $_POST['start_training_nonce'] ) && wp_verify_nonce( $_POST['start_training_nonce'], 'start_training_action' ) ) {
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this action.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this action.', 'nextbestoffer-ols' ) );
 				return;
 			}
 		
 			//does not work because notice are only displayed when php process is completed
-			//$this->add_info( esc_html__( 'Attempting to send data and start training. Please do not close this page and wait for a notification.', 'NextBestOffer-OLS' ) );
+			//$this->add_info( esc_html__( 'Attempting to send data and start training. Please do not close this page and wait for a notification.', 'nextbestoffer-ols' ) );
 		
 			if ( get_option( 'NextBestOffer_OLS_use_case' ) && get_option( 'NextBestOffer_OLS_api_key' )) {
 				set_transient('NextBestOffer_OLS_training_status', 'running', 600); // Expires in 10 minutes
@@ -245,20 +245,20 @@ class NextBestOffer_OLS_Admin {
 			}
 		
 			if ( $response === 'training_running' ) {
-				$this->add_error( esc_html__( 'Training is already running. Please try again later.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'Training is already running. Please try again later.', 'nextbestoffer-ols' ) );
 			} elseif ( $response === 'no_orders' ) {
-				$this->add_error( esc_html__( 'No Orders to train the model.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'No Orders to train the model.', 'nextbestoffer-ols' ) );
 			} elseif ( $response ) {
-				$this->add_success( esc_html__( 'Training started', 'NextBestOffer-OLS' ) );
+				$this->add_success( esc_html__( 'Training started', 'nextbestoffer-ols' ) );
 			} else {
-				$this->add_error( esc_html__( 'An error has occurred. Please check your customer ID and API key.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'An error has occurred. Please check your customer ID and API key.', 'nextbestoffer-ols' ) );
 			}
 			wp_redirect(admin_url('admin.php?page=NextBestOffer_OLS_options'));
 			delete_transient('NextBestOffer_OLS_training_status');
 			exit;
 		
 		} else if ( isset( $_POST['start_training'] ) ) {
-			$this->add_error( esc_html__( 'Nonce verification failed.', 'NextBestOffer-OLS' ) );
+			$this->add_error( esc_html__( 'Nonce verification failed.', 'nextbestoffer-ols' ) );
 		}		
 	}
 
@@ -266,7 +266,7 @@ class NextBestOffer_OLS_Admin {
 		if ( isset( $_POST['get_logs'] ) && isset( $_POST['logs_nonce'] ) && wp_verify_nonce( $_POST['logs_nonce'], 'logs_action' ) ) {
 	
 			if ( ! current_user_can( 'manage_options' ) ) {
-				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this page.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this page.', 'nextbestoffer-ols' ) );
 				return;
 			}
 	
@@ -275,14 +275,14 @@ class NextBestOffer_OLS_Admin {
 				if ($logs !== false) {
 					update_option( 'NextBestOffer_OLS_logs', $logs );
 				} else {
-					update_option( 'NextBestOffer_OLS_logs', esc_html__( 'Error retrieving the logs.', 'NextBestOffer-OLS' ) );
+					update_option( 'NextBestOffer_OLS_logs', esc_html__( 'Error retrieving the logs.', 'nextbestoffer-ols' ) );
 				}
 			} else {
-				$this->add_error( esc_html__( 'Customer ID or API key missing.', 'NextBestOffer-OLS' ) );
+				$this->add_error( esc_html__( 'Customer ID or API key missing.', 'nextbestoffer-ols' ) );
 			}
 	
 		} else if ( isset( $_POST['get_logs'] ) ) {
-			$this->add_error( esc_html__( 'Nonce verification failed.', 'NextBestOffer-OLS' ) );
+			$this->add_error( esc_html__( 'Nonce verification failed.', 'nextbestoffer-ols' ) );
 		}
 	}
 

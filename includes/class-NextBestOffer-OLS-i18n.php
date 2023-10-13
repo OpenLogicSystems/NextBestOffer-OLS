@@ -6,7 +6,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS
@@ -35,7 +35,7 @@ class NextBestOffer_OLS_i18n {
 	public function load_plugin_textdomain() {
 
 		load_plugin_textdomain(
-			'NextBestOffer-OLS',
+			'nextbestoffer-ols',
 			false,
 			dirname( dirname( plugin_basename( __FILE__ ) ) ) . '/languages/'
 		);

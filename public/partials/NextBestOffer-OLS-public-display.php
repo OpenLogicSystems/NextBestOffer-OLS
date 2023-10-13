@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link       https://wordpress.org/plugins/nextbestoffer-ols/
  * @since      1.0.0
  *
  * @package    NextBestOffer_OLS
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <!-- This file should primarily consist of HTML with a little bit of PHP. -->
 <section class="related products">
-    <h2><?php esc_html_e('Customers also bought:', 'NextBestOffer-OLS'); ?></h2>
+    <h2><?php esc_html_e('Customers also bought:', 'nextbestoffer-ols'); ?></h2>
     <ul class="products columns-4">
         <?php $counter = 0; ?>
         <?php foreach ($recommendations as $product_id) : ?>
@@ -32,8 +32,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                     <a href="?add-to-cart=<?php echo esc_attr( $product_id ); ?>" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-product_sku="" aria-label="
                     <?php 
                     /* translators: %s: product name */
-                    echo esc_attr(sprintf(__('Add %s to your shopping cart', 'NextBestOffer-OLS'), $product->get_name())); 
-                    ?>" rel="nofollow"><?php esc_html_e('Add to cart', 'NextBestOffer-OLS'); ?></a>
+                    echo esc_attr(sprintf(__('Add %s to your shopping cart', 'nextbestoffer-ols'), $product->get_name())); 
+                    ?>" rel="nofollow"><?php esc_html_e('Add to cart', 'nextbestoffer-ols'); ?></a>
                 </li>
                 <?php $counter++; ?>
             <?php endif; ?>

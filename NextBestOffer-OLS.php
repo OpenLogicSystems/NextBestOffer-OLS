@@ -8,20 +8,20 @@
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              https://wordpress.org/plugins/NextBestOffer-OLS
+ * @link              https://wordpress.org/plugins/nextbestoffer-ols/
  * @since             1.0.0
  * @package           NextBestOffer-OLS
  *
  * @wordpress-plugin
  * Plugin Name:       NextBestOffer-OLS
- * Plugin URI:        https://wordpress.org/plugins/NextBestOffer-OLS
+ * Plugin URI:        https://wordpress.org/plugins/nextbestoffer-ols/
  * Description:       This WordPress WooCommerce extension utilizes Artificial Intelligence (AI) to generate precise, personalized product suggestions based on purchase history. 
  * Version:           1.0.0
  * Author:            Open Logic Systems
  * Author URI:        https://open-ls.de/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       NextBestOffer-OLS
+ * Text Domain:       nextbestoffer-ols
  * Domain Path:       /languages
  */
 
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'NextBestOffer-OLS_VERSION', '1.0.0' );
+define( 'NextBestOffer-OLS_VERSION', '1.0.1' );
 
 /**
  * The code that runs during plugin activation.

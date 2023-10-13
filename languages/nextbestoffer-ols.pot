@@ -19,7 +19,7 @@ msgid "NextBestOffer-OLS"
 msgstr ""
 
 #. Plugin URI of the plugin
-msgid "https://wordpress.org/plugins/NextBestOffer-OLS"
+msgid "https://wordpress.org/plugins/nextbestoffer-ols/"
 msgstr ""
 
 #. Description of the plugin
