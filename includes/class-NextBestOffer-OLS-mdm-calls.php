@@ -317,4 +317,27 @@ class NextBestOffer_OLS_MDM_Calls {
 	
 		return false;
 	}
+
+	public static function report_bug($email, $reportText) {
+		$api_url = MDM_SERVICE_URL . '/reportBug';
+	
+		$report_data = array(
+			'email' => $email,
+			'reportText' => $reportText,
+		);
+
+		$args = array(
+			'body' => json_encode($report_data),
+			'headers' => array(
+				'Content-Type' => 'application/json',
+			),
+		);
+	
+		$response = wp_remote_post( $api_url, $args);
+	
+		if ( !is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) == 200 ) {
+			return true;
+		}
+		return false;
+	}
 }

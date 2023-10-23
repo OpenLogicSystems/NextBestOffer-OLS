@@ -25,7 +25,7 @@ if ( ! current_user_can( 'manage_options' ) ) {
 
 // Get the active tab from the $_GET param
 $default_tab = null;
-$allowed_tabs = ['partial_selection', 'settings', 'logs'];
+$allowed_tabs = ['partial_selection', 'settings', 'logs', 'reporting'];
 $tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : $default_tab;
 if (!in_array($tab, $allowed_tabs, true)) {
     $tab = $default_tab;
@@ -38,6 +38,7 @@ if (!in_array($tab, $allowed_tabs, true)) {
         <a href="?page=NextBestOffer_OLS_options&tab=settings" class="nav-tab <?php if($tab==='settings'):?>nav-tab-active<?php endif; ?>"><?php esc_html_e( 'Settings', 'nextbestoffer-ols' ); ?></a>
         <a href="?page=NextBestOffer_OLS_options&tab=logs" class="nav-tab <?php if($tab==='logs'):?>nav-tab-active<?php endif; ?>"><?php esc_html_e( 'Logs', 'nextbestoffer-ols' ); ?></a>
         <a href="?page=NextBestOffer_OLS_options&tab=partial_selection" class="nav-tab <?php if($tab==='partial_selection'):?>nav-tab-active<?php endif; ?>"><?php esc_html_e( 'Design', 'nextbestoffer-ols' ); ?></a>
+        <a href="?page=NextBestOffer_OLS_options&tab=reporting" class="nav-tab <?php if($tab==='reporting'):?>nav-tab-active<?php endif; ?>"><?php esc_html_e( 'Bug Report', 'nextbestoffer-ols' ); ?></a>
     </nav>
 
     <div class="tab-content">
@@ -146,6 +147,24 @@ if (!in_array($tab, $allowed_tabs, true)) {
                 </form>
                 <?php
                 break;
+            case 'reporting':
+                ?>
+                <form method="post">
+                    <?php wp_nonce_field('reporting_action', 'reporting_nonce'); ?>
+                    <table class="form-table">
+                        <tr>
+                            <th scope="row"><?php esc_html_e( 'EMail', 'nextbestoffer-ols' ); ?></th>
+                            <td><input type="email" name="NextBestOffer_OLS_bug_report_email" placeholder="someone@example.com" required/></td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php esc_html_e( 'Message', 'nextbestoffer-ols' ); ?></th>
+                            <td><textarea name="NextBestOffer_OLS_bug_report_text" placeholder="Please explain your issue here" required></textarea></td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="report_bug" class="button button-primary" />
+                </form>
+                <?php
+                break;
             default:
                 ?>
                 <form method="post" action="options.php">
@@ -163,7 +182,7 @@ if (!in_array($tab, $allowed_tabs, true)) {
                             <td><input type="text" name="NextBestOffer_OLS_api_key" value="<?php echo esc_attr( get_option( 'NextBestOffer_OLS_api_key' ) ); ?>" placeholder="API Key from Email" /></td>
                         </tr>
                         <tr>
-                            <th scope="row"></th>
+                            <td><a href="https://open-ls.de/impressum/" target="_blank"><?php esc_html_e( 'Kontakt', 'nextbestoffer-ols' ); ?></a></td>
                             <td><a href="https://open-ls.de/produkt/nextbestoffer-ols-plugin-api-key/" target="_blank"><?php esc_html_e( 'Buy Plugin', 'nextbestoffer-ols' ); ?></a></td>
                         </tr>
                     </table>

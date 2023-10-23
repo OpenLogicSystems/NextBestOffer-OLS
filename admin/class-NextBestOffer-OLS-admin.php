@@ -48,6 +48,7 @@ class NextBestOffer_OLS_Admin {
 		add_action( 'admin_init', array( $this, 'handle_confirm_start_training' ) );
 		add_action( 'admin_init', array( $this, 'start_training' ) );
 		add_action( 'admin_init', array( $this, 'get_logs' ) );
+		add_action( 'admin_init', array( $this, 'report_bug' ) );
 		add_action( 'updated_option', array( $this, 'on_option_updated' ), 10, 3 );
 	}
 
@@ -282,6 +283,36 @@ class NextBestOffer_OLS_Admin {
 			}
 	
 		} else if ( isset( $_POST['get_logs'] ) ) {
+			$this->add_error( esc_html__( 'Nonce verification failed.', 'nextbestoffer-ols' ) );
+		}
+	}
+
+	public function report_bug() {
+		if ( isset( $_POST['report_bug'] ) && isset( $_POST['reporting_nonce'] ) && wp_verify_nonce( $_POST['reporting_nonce'], 'reporting_action' ) ) {
+	
+			if ( ! current_user_can( 'manage_options' ) ) {
+				$this->add_error( esc_html__( 'You do not have sufficient permissions to access this page.', 'nextbestoffer-ols' ) );
+				return;
+			}
+	
+			if ( isset( $_POST['NextBestOffer_OLS_bug_report_email'] ) && isset( $_POST['NextBestOffer_OLS_bug_report_text'] ) ){
+				$email = sanitize_email($_POST['NextBestOffer_OLS_bug_report_email']);
+				$reportText = sanitize_textarea_field($_POST['NextBestOffer_OLS_bug_report_text']);
+				if ( empty($email) || empty($reportText)) {
+					$this->add_error( esc_html__( 'Email or text invalid', 'nextbestoffer-ols' ) );
+				} else {
+					$response = NextBestOffer_OLS_MDM_Calls::report_bug($email, $reportText);
+					if ($response) {
+						$this->add_success( esc_html__( 'Report sent successfully', 'nextbestoffer-ols' ) );
+					} else {
+						$this->add_error( esc_html__( 'Error sending the report', 'nextbestoffer-ols' ) );
+					}
+				}
+			} else {
+				$this->add_error( esc_html__( 'Error sending the report', 'nextbestoffer-ols' ) );
+			}
+	
+		} else if ( isset( $_POST['report_bug'] ) ) {
 			$this->add_error( esc_html__( 'Nonce verification failed.', 'nextbestoffer-ols' ) );
 		}
 	}
