@@ -3,7 +3,7 @@ Contributors: openlogicsystems
 Tags: Product Recommendations, Cross-Selling, AI-Powered, WooCommerce Extension, Post-Purchase Suggestions
 Requires at least: 6.1
 Tested up to: 6.3
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 Requires PHP: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -60,3 +60,6 @@ Bug Report Feature
 
 = 1.2.0 =
 Added Free Version 
+
+= 1.2.1 =
+Enhanced privacy protection

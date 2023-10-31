@@ -181,11 +181,13 @@ class NextBestOffer_OLS_MDM_Calls {
 		$api_url = MDM_SERVICE_URL . '/trainModel';
 
 		$domain = parse_url(site_url(), PHP_URL_HOST);
+
+		$hashed_domain = hash('sha256', $domain);
 		
 		$params = array(
 			'usecaseID' => get_option('NextBestOffer_OLS_use_case'),
 			'apiKey' => get_option('NextBestOffer_OLS_api_key'),
-			'domain' => $domain
+			'domain' => $hashed_domain
 		);
 		
 		$url = add_query_arg($params, $api_url);
