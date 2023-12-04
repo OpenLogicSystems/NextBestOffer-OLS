@@ -2,7 +2,7 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: NextBestOffer-OLS 1.2.1\n"
+"Project-Id-Version: NextBestOffer-OLS 1.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/NextBestOffer-OLS\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
