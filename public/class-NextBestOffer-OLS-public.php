@@ -59,6 +59,12 @@ class NextBestOffer_OLS_Public {
 		#Replace default related products by woocomerce with mdm recoms
 		add_filter( 'woocommerce_related_products', [ $this, 'get_related_recommendations' ], 10, 3 );
 
+		#disable shuffling of predictions
+		add_filter( 'woocommerce_output_related_products_args', array($this,'sort_related_products'));
+		add_filter( 'woocommerce_product_related_posts_shuffle', '__return_false' );
+
+		add_filter( 'woocommerce_product_related_products_heading', array($this, 'change_header'));
+
 		add_filter( 'post_class', array( $this, 'add_custom_class' ) );
 
 		#Add Callback after clicking on cart and get mdm recoms
@@ -112,6 +118,17 @@ class NextBestOffer_OLS_Public {
 
 	}
 
+	function sort_related_products( $args ) {
+		#disable shuffling of predictions
+		$args['orderby'] = 'none';
+		$args['order'] = 'ASC';
+		return $args;
+	 }
+
+	function change_header() {
+		return esc_html__('Customers also bought', 'nextbestoffer-ols');
+	}
+
 	public function get_cart_recommendations( $cross_sell_ids ) {
 		$cart = WC()->cart->get_cart();
 		
@@ -125,11 +142,22 @@ class NextBestOffer_OLS_Public {
 		$api_key = get_option( 'NextBestOffer_OLS_api_key' );
 		
 		$recommended_products = NextBestOffer_OLS_MDM_Calls::get_recommendations( $kunde_case_id, $api_key, $cart_item_ids );
+
+		$recom_mode = get_option( 'NextBestOffer_OLS_recom_mode' );
 		
 		if ( !empty($recommended_products) ) {
-			global $nbo_current_recommended_product_ids;
-			$nbo_current_recommended_product_ids = $recommended_products;
-			return $recommended_products;
+			if ($recom_mode == 'overwrite') {
+				global $nbo_current_recommended_product_ids;
+				$nbo_current_recommended_product_ids = $recommended_products;
+				return $recommended_products;
+			} else if ($recom_mode == 'no_overwrite') {
+				global $nbo_current_recommended_product_ids;
+				$merged_recommendations = array_merge($cross_sell_ids, $recommended_products);
+				$recommendations = array_unique($merged_recommendations);
+				$recommendations = array_slice($recommendations, 0, 4);
+				$nbo_current_recommended_product_ids = $recommendations;
+				return $recommendations;
+			}
 		}
 		
 		return $cross_sell_ids;
@@ -142,11 +170,21 @@ class NextBestOffer_OLS_Public {
 		$product_id_array = [$product_id];
 
 		$recommended_products = NextBestOffer_OLS_MDM_Calls::get_recommendations( $kunde_case_id, $api_key, $product_id_array );
-	
+		
+		$recom_mode = get_option( 'NextBestOffer_OLS_recom_mode' );
+
 		if ( !empty($recommended_products) ) {
-			global $nbo_current_recommended_product_ids;
-			$nbo_current_recommended_product_ids = $recommended_products; 
-			return $recommended_products;
+			if ($recom_mode == 'overwrite') {
+				global $nbo_current_recommended_product_ids;
+				$nbo_current_recommended_product_ids = $recommended_products;
+				return $recommended_products;
+			} else if ($recom_mode == 'no_overwrite') {
+				global $nbo_current_recommended_product_ids;
+				$merged_recommendations = array_merge($recommended_products, $related_posts);
+				$recommendations = array_unique($merged_recommendations);
+				$nbo_current_recommended_product_ids = $recommendations;
+				return $recommendations;
+			}
 		}
 	
 		return $related_posts;

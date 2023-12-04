@@ -138,6 +138,7 @@ class NextBestOffer_OLS_Admin {
 		register_setting( 'NextBestOffer_OLS_model_settings', 'NextBestOffer_OLS_training_mode', array( $this, 'sanitize_training_mode' ) );
 		register_setting( 'NextBestOffer_OLS_model_settings', 'NextBestOffer_OLS_batch_size', array( $this, 'sanitize_batch_size' ) );
 		register_setting( 'NextBestOffer_OLS_model_settings', 'NextBestOffer_OLS_email_recommendations', array( $this, 'sanitize_email_recommendations' ) );
+		register_setting( 'NextBestOffer_OLS_model_settings', 'NextBestOffer_OLS_recom_mode', array( $this, 'sanitize_recom_mode' ) );
 
 		register_setting( 'NextBestOffer_OLS_partial_selection', 'NextBestOffer_OLS_selected_partial' );
 	}	
@@ -159,6 +160,13 @@ class NextBestOffer_OLS_Admin {
 			return $mode;
 		}
 		return 'transaction_related';
+	}
+
+	public function sanitize_recom_mode( $mode ) {
+		if ( $mode === 'overwrite' || $mode === 'no_overwrite' ) {
+			return $mode;
+		}
+		return 'overwrite';
 	}
 
 	public function sanitize_email_recommendations( $option) {
@@ -192,6 +200,13 @@ class NextBestOffer_OLS_Admin {
 			if ( $new_value !== $old_value ) {
 				/* translators: 1: New value of the training mode. */
 				$this->add_success( sprintf( esc_html__( 'Training mode changed to %1$s', 'nextbestoffer-ols' ), $new_value ) );
+			}
+		}
+
+		if ( 'NextBestOffer_OLS_recom_mode' === $option ) {
+			if ( $new_value !== $old_value ) {
+				/* translators: 1: New value of the recom mode. */
+				$this->add_success( sprintf( esc_html__( 'Recommendation mode changed to %1$s', 'nextbestoffer-ols' ), $new_value ) );
 			}
 		}
 

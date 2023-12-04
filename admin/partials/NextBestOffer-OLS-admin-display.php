@@ -111,6 +111,16 @@ if (!in_array($tab, $allowed_tabs, true)) {
                         </td>
                     </tr>
                     <tr>
+                        <th scope="row"><?php esc_html_e( 'Recommendation Mode', 'nextbestoffer-ols' ); ?></th>
+                        <td>
+                            <select name="NextBestOffer_OLS_recom_mode">
+                                <option value="overwrite" <?php selected(get_option('NextBestOffer_OLS_recom_mode'), 'overwrite'); ?>><?php echo esc_html__( 'Overwrite default recommendations', 'nextbestoffer-ols' ); ?></option>
+                                <option value="no_overwrite" <?php selected(get_option('NextBestOffer_OLS_recom_mode'), 'no_overwrite'); ?>><?php echo esc_html__( 'Merge recommendations', 'nextbestoffer-ols' ); ?></option>
+                            </select>
+                            <p class="description"><?php echo esc_html__( 'Mode for displaying the recommendations: Choosing merge will merge your crosssell items in the cart with the recommendations from the plugin, prioritizing your crosssell items. It also merges the recommendations with the default related products on the product page, but the recommendations of the Plugin are prioritized. If you choose overwrite all default related products/crosssell items get overwritten by the recommendations of the Plugin.', 'nextbestoffer-ols' ); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row"><?php esc_html_e( 'Batch Size', 'nextbestoffer-ols' ); ?></th>
                         <td>
                             <input type="number" name="NextBestOffer_OLS_batch_size" value="<?php echo esc_attr( get_option( 'NextBestOffer_OLS_batch_size' ) ); ?>" min="500" max="4000" step="100">

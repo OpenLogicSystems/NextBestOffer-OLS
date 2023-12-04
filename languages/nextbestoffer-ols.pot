@@ -2,17 +2,17 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: NextBestOffer-OLS 1.0.0\n"
+"Project-Id-Version: NextBestOffer-OLS 1.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/NextBestOffer-OLS\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-10-02T15:40:23+02:00\n"
+"POT-Creation-Date: 2023-12-04T10:36:33+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.8.1\n"
-"X-Domain: NextBestOffer-OLS\n"
+"X-Generator: WP-CLI 2.9.0\n"
+"X-Domain: nextbestoffer-ols\n"
 
 #. Plugin Name of the plugin
 msgid "NextBestOffer-OLS"
@@ -35,66 +35,86 @@ msgid "https://open-ls.de/"
 msgstr ""
 
 #. translators: 1: option name 2: new value
-#: admin/class-NextBestOffer-OLS-admin.php:174
 #: admin/class-NextBestOffer-OLS-admin.php:183
+#: admin/class-NextBestOffer-OLS-admin.php:192
 msgid "%1$s Value updated to %2$s"
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:185
+#: admin/class-NextBestOffer-OLS-admin.php:194
 msgid "An error occurred."
 msgstr ""
 
 #. translators: 1: New value of the training mode.
-#: admin/class-NextBestOffer-OLS-admin.php:193
+#: admin/class-NextBestOffer-OLS-admin.php:202
 msgid "Training mode changed to %1$s"
 msgstr ""
 
+#. translators: 1: New value of the recom mode.
+#: admin/class-NextBestOffer-OLS-admin.php:209
+msgid "Recommendation mode changed to %1$s"
+msgstr ""
+
 #. translators: 1: New value of the training mode.
-#: admin/class-NextBestOffer-OLS-admin.php:200
+#: admin/class-NextBestOffer-OLS-admin.php:216
 msgid "Email recommendations changed to %1$s"
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:210
-#: admin/class-NextBestOffer-OLS-admin.php:269
+#: admin/class-NextBestOffer-OLS-admin.php:226
+#: admin/class-NextBestOffer-OLS-admin.php:285
+#: admin/class-NextBestOffer-OLS-admin.php:309
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:216
+#: admin/class-NextBestOffer-OLS-admin.php:232
 msgid "Training is already running. Please try again later (max. 10 minutes)."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:224
-#: admin/class-NextBestOffer-OLS-admin.php:261
-#: admin/class-NextBestOffer-OLS-admin.php:285
+#: admin/class-NextBestOffer-OLS-admin.php:240
+#: admin/class-NextBestOffer-OLS-admin.php:277
+#: admin/class-NextBestOffer-OLS-admin.php:301
+#: admin/class-NextBestOffer-OLS-admin.php:331
 msgid "Nonce verification failed."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:232
+#: admin/class-NextBestOffer-OLS-admin.php:248
 msgid "You do not have sufficient permissions to access this action."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:248
+#: admin/class-NextBestOffer-OLS-admin.php:264
 msgid "Training is already running. Please try again later."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:250
+#: admin/class-NextBestOffer-OLS-admin.php:266
 msgid "No Orders to train the model."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:252
+#: admin/class-NextBestOffer-OLS-admin.php:268
 msgid "Training started"
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:254
+#: admin/class-NextBestOffer-OLS-admin.php:270
 msgid "An error has occurred. Please check your customer ID and API key."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:278
+#: admin/class-NextBestOffer-OLS-admin.php:294
 msgid "Error retrieving the logs."
 msgstr ""
 
-#: admin/class-NextBestOffer-OLS-admin.php:281
+#: admin/class-NextBestOffer-OLS-admin.php:297
 msgid "Customer ID or API key missing."
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:317
+msgid "Email or text invalid"
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:321
+msgid "Report sent successfully"
+msgstr ""
+
+#: admin/class-NextBestOffer-OLS-admin.php:323
+#: admin/class-NextBestOffer-OLS-admin.php:327
+msgid "Error sending the report"
 msgstr ""
 
 #: admin/partials/NextBestOffer-OLS-admin-confirm.php:27
@@ -133,116 +153,152 @@ msgstr ""
 msgid "Design"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:53
+#: admin/partials/NextBestOffer-OLS-admin-display.php:41
+msgid "Bug Report"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:54
 msgid "Choose Design"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:56
+#: admin/partials/NextBestOffer-OLS-admin-display.php:57
 msgid "None"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:57
+#: admin/partials/NextBestOffer-OLS-admin-display.php:58
 msgid "Partial 1"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:58
+#: admin/partials/NextBestOffer-OLS-admin-display.php:59
 msgid "Partial 2"
 msgstr ""
 
 #. translators: 1: Link to the Log Tab
-#: admin/partials/NextBestOffer-OLS-admin-display.php:76
+#: admin/partials/NextBestOffer-OLS-admin-display.php:77
 msgid "Note: The current values and the number of rules found can be viewed in the %1$s. After changes, the training must be restarted."
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:77
+#: admin/partials/NextBestOffer-OLS-admin-display.php:78
 msgid "Log Tab"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:82
+#: admin/partials/NextBestOffer-OLS-admin-display.php:83
 msgid "Max. rule length"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:85
+#: admin/partials/NextBestOffer-OLS-admin-display.php:86
 msgid "This setting determines how many different products can appear together in a recommendation at most. A larger number means more diverse recommendations, but possibly also more rules. (Default: 5)"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:89
+#: admin/partials/NextBestOffer-OLS-admin-display.php:90
 msgid "Min. Support"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:92
+#: admin/partials/NextBestOffer-OLS-admin-display.php:93
 msgid "This value determines how often a product combination must occur in the orders for it to be displayed as a recommendation. A higher value only shows combinations that are purchased more frequently. (Default: 0.5)"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:96
+#: admin/partials/NextBestOffer-OLS-admin-display.php:97
 msgid "Min. Confidence"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:99
+#: admin/partials/NextBestOffer-OLS-admin-display.php:100
 msgid "Here you determine how confident the plugin must be that the recommendation is relevant for the customers. A higher value means more accurate recommendations, but possibly less choice. (Default: 0.8)"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:103
+#: admin/partials/NextBestOffer-OLS-admin-display.php:104
 msgid "Training Mode"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:106
+#: admin/partials/NextBestOffer-OLS-admin-display.php:107
 msgid "Transaction related"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:107
+#: admin/partials/NextBestOffer-OLS-admin-display.php:108
 msgid "Customer related"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:109
+#: admin/partials/NextBestOffer-OLS-admin-display.php:110
 msgid "Choose the mode for the association analysis: \"Transaction related\" (default) or \"Customer related\". In \"Transaction related\" mode, the analysis is conducted on all transactions, generating recommendations based on collective purchasing behavior. In \"Customer related\" mode, individual customer preferences guide the recommendations, enhancing personal relevance. Select the mode that best suits your business needs."
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:113
-msgid "Batch Size"
+#: admin/partials/NextBestOffer-OLS-admin-display.php:114
+msgid "Recommendation Mode"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:116
-msgid "This setting controls the batch size for sending orders to the recommendation service. Higher values send more orders at once but may overload the WordPress PHP script whereas lower values make the transfer slower (min: 500; max: 4000)."
+#: admin/partials/NextBestOffer-OLS-admin-display.php:117
+msgid "Overwrite default recommendations"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:118
+msgid "Merge recommendations"
 msgstr ""
 
 #: admin/partials/NextBestOffer-OLS-admin-display.php:120
-msgid "Email Recommendations"
-msgstr ""
-
-#: admin/partials/NextBestOffer-OLS-admin-display.php:123
-msgid "Enabled"
+msgid "Mode for displaying the recommendations: Choosing merge will merge your crosssell items in the cart with the recommendations from the plugin, prioritizing your crosssell items. It also merges the recommendations with the default related products on the product page, but the recommendations of the Plugin are prioritized. If you choose overwrite all default related products/crosssell items get overwritten by the recommendations of the Plugin."
 msgstr ""
 
 #: admin/partials/NextBestOffer-OLS-admin-display.php:124
+msgid "Batch Size"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:127
+msgid "This setting controls the batch size for sending orders to the recommendation service. Higher values send more orders at once but may overload the WordPress PHP script whereas lower values make the transfer slower (min: 500; max: 4000)."
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:131
+msgid "Email Recommendations"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:134
+msgid "Enabled"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:135
 msgid "Disabled"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:126
+#: admin/partials/NextBestOffer-OLS-admin-display.php:137
 msgid "If you enable this feature customers get also personalized recommendations in their order confirmation email."
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:145
+#: admin/partials/NextBestOffer-OLS-admin-display.php:156
 msgid "Refresh"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:158
+#: admin/partials/NextBestOffer-OLS-admin-display.php:166
+msgid "EMail"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:170
+msgid "Message"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:187
 msgid "Customer ID"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:162
+#: admin/partials/NextBestOffer-OLS-admin-display.php:191
 msgid "API Key"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:167
+#: admin/partials/NextBestOffer-OLS-admin-display.php:195
+msgid "Kontakt"
+msgstr ""
+
+#: admin/partials/NextBestOffer-OLS-admin-display.php:196
 msgid "Buy Plugin"
 msgstr ""
 
-#: admin/partials/NextBestOffer-OLS-admin-display.php:171
+#: admin/partials/NextBestOffer-OLS-admin-display.php:200
 msgid "Start Training"
 msgstr ""
 
-#: public/class-NextBestOffer-OLS-public.php:215
+#: public/class-NextBestOffer-OLS-public.php:129
+msgid "Customers also bought"
+msgstr ""
+
+#: public/class-NextBestOffer-OLS-public.php:253
 msgid "Error loading the recommendations."
 msgstr ""
 
